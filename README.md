@@ -107,6 +107,40 @@ All C-Suite agents follow: analysis first, conclusion second. Framework-backed r
 
 ## Customization
 
+### 2-Layer Architecture: Plugin vs Project
+
+Enterprise OS separates **generic capabilities** (the plugin) from **project-specific customization** (your `.claude/` directory). They never mix.
+
+```
+Plugin (enterprise-os)                    Project (.claude/)
+──────────────────────                    ──────────────────
+agents/ceo.md       ← "CEO란 무엇인가"     agents/ceo.md       ← 이 프로젝트 오버라이드 (있으면 우선)
+agents/cto.md       ← 범용 CTO 역할        agents/feature-developer.md ← 프로젝트 전용 규칙
+skills/grade/       ← 범용 평가 시스템      skills/stripe-integration/  ← 프로젝트 전용 스킬
+hooks/shared/       ← 범용 품질 게이트      hooks/project/              ← 프로젝트 전용 훅
+frameworks/         ← 판단 원칙             (CLAUDE.md에서 로드)
+templates/          ← 초기 설정용
+```
+
+**Rules:**
+- **Same name → project wins.** If both plugin and `.claude/` have `agents/ceo.md`, the project version takes priority.
+- **Different names → both load.** Plugin's `agents/cto.md` and project's `agents/my-custom-agent.md` coexist.
+- **Plugin update → generic only.** `claude plugin update enterprise-os` updates the plugin layer without touching your `.claude/` customizations.
+
+**What goes where:**
+
+| Plugin (generic, shared across projects) | Project `.claude/` (project-specific) |
+|---|---|
+| C-Suite role definitions (what a CTO does) | Domain vocabulary (tutor/student vs seller/buyer) |
+| CEO/CTO/COO frameworks (judgment principles) | Feature-developer project rules (RLS matrix, etc.) |
+| Grade system (8 evaluation skills) | Security-review project checklist |
+| Pipeline skills (lead, multi-lead, grade) | Project-specific skills (stripe, e2e-test-guide) |
+| Core hooks (layer3-gate, quality-gate) | Hooks with hardcoded project paths |
+| Templates (CLAUDE.md, current-state.md) | settings.local.json (hook paths) |
+| Wave orchestration | Test accounts, API key references |
+
+**Updating the plugin in one project does not affect other projects.** Each project installs its own copy of the plugin.
+
 ### Domain Vocabulary
 Enterprise OS reads your project's CLAUDE.md for domain vocabulary. Define your business terms there, and agents will enforce them automatically via the verify-domain-rules hook.
 
