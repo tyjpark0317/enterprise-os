@@ -13,7 +13,7 @@
       "author": {
         "name": "Enterprise OS Contributors"
       },
-      "source": ".",
+      "source": "./",
       "category": "development"
     }
   ]
