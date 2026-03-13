@@ -1,0 +1,79 @@
+# {{PROJECT_NAME}} -- Current State
+
+> Single source of truth for project status. Read at session start, update at session end and before every commit.
+
+## BLUF
+
+{{BOTTOM_LINE_UP_FRONT}}
+
+---
+
+## Strategic Priorities
+
+| # | Priority | RAG | Owner | Notes |
+|---|----------|-----|-------|-------|
+| 1 | {{PRIORITY_1}} | | | |
+| 2 | {{PRIORITY_2}} | | | |
+| 3 | {{PRIORITY_3}} | | | |
+
+RAG: R = Red (blocked/at risk), A = Amber (needs attention), G = Green (on track)
+
+---
+
+## Next TODO
+
+1. {{TODO_1}}
+2. {{TODO_2}}
+3. {{TODO_3}}
+
+---
+
+## Action Items Tracker
+
+### Active
+
+| # | Action Item | Owner | Deadline | Status | Reference |
+|---|-------------|-------|----------|--------|-----------|
+| 1 | | | | | |
+
+### Completed
+
+| # | Action Item | Owner | Completed | Outcome | Reference |
+|---|-------------|-------|-----------|---------|-----------|
+| 1 | | | | | |
+
+---
+
+## Key Decisions
+
+| Decision | Type | Date | Source | Reference Doc |
+|----------|------|------|--------|---------------|
+| | Type 1/Type 2 | | | |
+
+Type 1 = Irreversible (one-way door). Type 2 = Reversible (two-way door).
+
+---
+
+## Key Metrics
+
+| Metric | Current | Target | Trend | Notes |
+|--------|---------|--------|-------|-------|
+| | | | | |
+
+---
+
+## Chairman Standing Orders
+
+1. {{STANDING_ORDER_1}}
+2. {{STANDING_ORDER_2}}
+3. {{STANDING_ORDER_3}}
+
+---
+
+## Reference Documents
+
+| Document | Type | Path | Description |
+|----------|------|------|-------------|
+| | ADR | docs/executive/cto/adr/ | |
+| | Task Doc | docs/tasks/ | |
+| | Report | docs/executive/ | |

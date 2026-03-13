@@ -1,0 +1,218 @@
+# CLAUDE.md - {{PROJECT_NAME}}
+
+## Project Overview
+
+{{PROJECT_DESCRIPTION}}
+
+## Tech Stack
+
+{{TECH_STACK}}
+
+## Project Structure
+
+```
+{{PROJECT_STRUCTURE}}
+```
+
+## Development Commands
+
+```bash
+{{DEV_COMMANDS}}
+```
+
+---
+
+## System 1: Manual Trigger Rules (MUST FOLLOW)
+
+Before starting ANY work, check docs/manuals/index.md and read the relevant manuals.
+
+| Work Area | Trigger Paths | Required Manuals |
+| --------- | ------------- | ---------------- |
+{{MANUAL_TRIGGER_ROWS}}
+
+---
+
+## System 2: Task Memory (MUST FOLLOW)
+
+For every new feature or significant task:
+
+1. Create folder: docs/tasks/{feature-name}/
+2. Write {feature-name}.md BEFORE coding -- 3 sections:
+   - ## Plan -- What to build (goals, approach, end state)
+   - ## Context -- Why these decisions (alternatives, constraints)
+   - ## Checklist -- Progress tracking (tasks with status)
+3. Work on 1-2 tasks at a time, update Checklist after each
+4. New session -> read task file first to resume context
+5. If the file grows too long, split sections into separate files
+
+**Golden Rules:**
+
+- Never start coding without a plan
+- Never do more than 2 tasks without updating the checklist
+- When conversation gets long, suggest new session with task file
+
+---
+
+## Domain Vocabulary
+
+Use these exact terms in all code (files, functions, variables, types):
+
+```
+Business Concept                    Code Name
+----------------------------------------------------
+(Add your domain terms here)
+```
+
+**Never use these terms in code:**
+- (Add banned terms and their replacements here)
+- Example: "reservation" -> use booking
+- Example: "class" -> use session
+
+---
+
+## Naming Conventions
+
+### Files and Folders: kebab-case, business domain names
+
+```
+GOOD: order-form.tsx, product-catalog.tsx, create-checkout-session.ts
+BAD:  Form1.tsx, Cat.tsx, helper.ts, misc.ts, utils.ts
+```
+
+### Functions: camelCase, verb + business concept
+
+```
+GOOD: createOrder(), cancelSubscription(), getAvailableItems()
+BAD:  handleClick(), processData(), doStuff(), helper()
+```
+
+### Components: PascalCase, business concept + UI role
+
+```
+GOOD: ProductCard.tsx, OrderForm.tsx, InventoryCatalog.tsx
+BAD:  Card.tsx, Form.tsx, CustomList.tsx
+```
+
+### Types/Interfaces: PascalCase, business concept
+
+```
+GOOD: Order, ProductProfile, AvailableSlot, SubscriptionTier
+BAD:  IData, OrderType, IOrderInterface
+```
+
+### Constants: UPPER_SNAKE_CASE
+
+```
+MAX_DESCRIPTION_LENGTH = 500
+CANCELLATION_NOTICE_DAYS = 14
+DEFAULT_PAGE_SIZE = 20
+```
+
+### Import aliases
+
+{{IMPORT_ALIAS_RULES}}
+
+---
+
+## Commit Format
+
+```
+type: description (English, lowercase, present tense)
+
+Types:
+  feat      New feature
+  fix       Bug fix
+  refactor  Code improvement (no behavior change)
+  docs      Documentation only
+  style     Formatting (no code change)
+  test      Add/update tests
+  chore     Build, config, dependencies
+
+Examples:
+  feat: add order cancellation with 2-week notice
+  fix: prevent double booking on same time slot
+  refactor: extract payment calculation to shared util
+```
+
+### Branch Names: type/business-concept
+
+```
+feat/order-processing
+feat/payment-onboarding
+fix/double-booking-prevention
+```
+
+---
+
+## Code Conventions
+
+- TypeScript strict mode, no `any` types
+- All API inputs validated with Zod
+- All components handle 4 states: loading, error, empty, success
+- Server-side computation for business logic (single source of truth)
+- Never trust client-side data
+
+---
+
+## Security Rules (Always Active)
+
+- Row-level security enabled on every database table (if supported)
+- Server-side validation on all API routes
+- Webhook signatures always verified
+- No hardcoded secrets -- use environment variables
+- Session stored in HTTP-only cookies (not localStorage)
+- Run docs/manuals/security/checklist.md after every task
+
+---
+
+## Hook Block Response Protocol (Always Active)
+
+Hooks are fail-open -- they pass silently on timeout. When blocked, fix the root cause instead of bypassing.
+
+1. Identify which hook blocked using the `HOOK:` field in the error message
+2. Analyze the block cause (missing field, sequence violation, authorization failure, etc.)
+3. Fix the root cause and retry
+4. If blocked by the same hook 2 consecutive times -> report to the chairman
+5. Minimum timeout is 180 seconds -- shorter values disable enforcement
+
+---
+
+## Strategic Decision Principles (Always Active)
+
+1. **Customer-Backward** -- Every proposal starts from the user experience
+2. **Type 1/Type 2** -- Irreversible = full analysis, reversible = decide at 70% information
+3. **Specific Diagnosis** -- When rejecting or giving feedback, provide numbered specific reasons
+4. **Liquidity is the Product** -- Match rate and time-to-first-value are the North Star metrics
+5. **Expense Control** -- Operational efficiency is a competitive advantage
+
+- When analyzing, actively select frameworks from the frameworks file. State the selection and reasoning in the report.
+- Self-Assessment is mandatory: include a performance evaluation in every analysis report.
+- Use the actuary agent for data analysis when needed.
+
+---
+
+## Skill Usage Rules
+
+- If a skill is even 1% relevant, invoke it via the Skill tool
+- Priority: process skills (brainstorming, debugging, TDD) first -> implementation skills second
+- Red flags (signs of skill avoidance):
+  - "This is a simple question, no skill needed" -> Questions are work. Check skills.
+  - "Let me look at the code first" -> Skills tell you how to explore. Check first.
+  - "This is outside skill scope" -> If 1% relevant, invoke it.
+
+---
+
+## AI System Design Principle
+
+When creating or modifying agents, skills, or hooks:
+1. **Research industry best practices** -- Check benchmarks, prior art, best practices
+2. **AI Engineering judgment** -- "Which structure produces higher quality agent output?" is the top priority
+3. **Marketplace comparison** -- When external skills/plugins exist, compare custom vs marketplace via deep research
+4. **Results over convention** -- Adopt whatever produces better results in this project
+
+---
+
+## CLAUDE.md Modification Rule
+
+**NEVER modify this file without showing the proposed changes to the user and getting explicit approval first.**
+This rule applies to all agents and all contexts. No exceptions.

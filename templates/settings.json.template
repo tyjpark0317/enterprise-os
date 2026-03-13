@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '=== CURRENT STATE (auto-loaded at session start) ===' && cat docs/executive/ceo/current-state.md 2>/dev/null | head -500 || echo 'No current-state.md found. Run /setup to initialize.'",
+            "timeout": 10000
+          },
+          {
+            "type": "command",
+            "command": "echo '=== CEO FRAMEWORKS (auto-loaded at session start) ===' && cat docs/executive/shared/frameworks/ceo-frameworks.md 2>/dev/null | head -500 || echo 'No CEO frameworks found. Copy from enterprise-os/frameworks/ceo-frameworks.md.'",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
+}
