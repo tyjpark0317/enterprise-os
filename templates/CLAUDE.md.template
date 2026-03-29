@@ -1,5 +1,11 @@
 # CLAUDE.md - {{PROJECT_NAME}}
 
+## 0 Finding Policy (Top Priority)
+
+**All findings, warnings, advisories, nits, and recommendations are fix targets.** "Ignorable", "low priority", "out of scope", "advisory so skip" are all banned. 100/100 is the standard. Only physical impossibility is an exception.
+
+---
+
 ## Project Overview
 
 {{PROJECT_DESCRIPTION}}
@@ -45,11 +51,54 @@ For every new feature or significant task:
 4. New session -> read task file first to resume context
 5. If the file grows too long, split sections into separate files
 
+**Checklist Tag Convention (pipeline owner tags):**
+
+Tag checklist items by pipeline stage owner:
+
+- No tag -> BUILD (feature-developer)
+- `(E2E)` -> Step 4 (e2e-test-developer)
+- `(UX)` -> Step 5 (ux-tester)
+
+```
+- [ ] Unit tests: API + component
+- [ ] E2E tests: critical flows (E2E)
+- [ ] UX polish: mobile responsive check (UX)
+```
+
 **Golden Rules:**
 
 - Never start coding without a plan
 - Never do more than 2 tasks without updating the checklist
 - When conversation gets long, suggest new session with task file
+
+---
+
+## System 3: AI Ops Event Bus (MUST FOLLOW)
+
+Structured communication channel between orchestration layer and code agents.
+
+### Session Start Obligations
+
+1. Scan `.ops/needs-code-fix/` -- if files exist, analyze and create fix plan
+2. Check `.ops/state/active-incidents.json` -- understand ongoing incident context
+
+### Post-Fix Obligations
+
+1. Write `.ops/completed/INC-{timestamp}.json` (root_cause + fix + prevention)
+2. Create runbook: `docs/runbooks/{issue-slug}.md` (enables auto-response next time)
+3. Implement recurrence prevention: add hooks/tests/monitoring rules
+
+### .ops/ Directory Convention
+
+| Directory | Write | Read | Purpose |
+|-----------|-------|------|---------|
+| `state/` | Both | Both | Real-time system/business state |
+| `needs-code-fix/` | Orchestrator | Agent | Incidents requiring code fixes |
+| `completed/` | Agent | Orchestrator | Fix completion + learning data |
+| `auto-resolved/` | Orchestrator | Both | Self-resolved incident records |
+| `reports/` | Orchestrator | Both | Daily/weekly/monthly reports |
+
+All files are JSON. Incident ID format: `INC-YYYY-MMDD-NNN`
 
 ---
 
@@ -165,6 +214,17 @@ fix/double-booking-prevention
 
 ---
 
+## Resilience Rules (Always Active)
+
+- **Complete every assigned task** -- "takes too long, skip", "will do later", "next time" are banned. If assigned, finish it.
+- **No incomplete DONE** -- if checklist items remain, it is not DONE. "Mostly done" is not DONE.
+- **No false reporting** -- do not report unverified facts. If unknown, say "unknown."
+- **No convenience skips** -- manual updates, migrations, test writing are part of the main task.
+- **Check before building** -- verify backlog items are not already implemented before starting work.
+- **Make it work** -- all findings, recommendations, advisories are fix targets. "Low priority", "out of scope" are not valid skip reasons.
+
+---
+
 ## Hook Block Response Protocol (Always Active)
 
 Hooks are fail-open -- they pass silently on timeout. When blocked, fix the root cause instead of bypassing.
@@ -209,6 +269,27 @@ When creating or modifying agents, skills, or hooks:
 2. **AI Engineering judgment** -- "Which structure produces higher quality agent output?" is the top priority
 3. **Marketplace comparison** -- When external skills/plugins exist, compare custom vs marketplace via deep research
 4. **Results over convention** -- Adopt whatever produces better results in this project
+
+---
+
+## AI Self-Correction Principle
+
+Agent runtime self-correction in 3 levels (`.ops/self-correction/` reference):
+
+1. **Self-Score (Level A)** -- Score own output 0-100 before submission. <70 triggers auto-rework (max 2x).
+2. **Lesson Learning (Level B)** -- Compare validator results with self-score. Delta >15 or CRITICAL finding generates a lesson. Recent lessons auto-injected next run.
+3. **Evolution (Level C)** -- Same category mistake 3x triggers evolution item (CHRO reviews). Max 20 items, 60-day TTL if untriggered.
+
+### Self-Score Enforcement Gate
+
+1. **100/100** -> proceed normally
+2. **Below 100** -> per-item judgment:
+   - **Actual defect** (bug, omission, missing test) -> FIX: rework
+   - **Legitimate trade-off** (technical constraint, equivalent outcome) -> JUSTIFY: document reason
+   - **"Too hard, skipped"** -> FIX: make-it-work principle violation
+3. FIX items present -> rework (max 2x)
+4. **100 or all items JUSTIFIED** -> proceed to next stage
+5. Reports missing Self-Score section -> rejected, resubmit required
 
 ---
 

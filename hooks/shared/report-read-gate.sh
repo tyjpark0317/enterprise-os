@@ -1,32 +1,24 @@
 #!/usr/bin/env bash
-# Hook: report-read-gate -- Block edits when required reference reports are unread
-# Trigger: PreToolUse -> Edit|Write
-# Action: BLOCK if active task has required reports that haven't been read
-#
-# Works with manual-read-tracker.sh which creates:
-#   /tmp/eos-active-task       -- current task feature name
-#   /tmp/eos-task-refs-{feat}  -- required report paths for that task
-#   /tmp/eos-report-reads      -- log of reports read this session
-#
-# Flow: agent reads task doc -> tracker extracts refs -> agent reads refs -> gate allows edit
+# report-read-gate.sh — PreToolUse Edit|Write
+# Part 1: Blocks source code modifications if active task's required reports haven't been read.
+# Part 2: Re-anchoring context injection (flow-next pattern)
 
 set -euo pipefail
 
+[ -f /tmp/enterprise-ux-test-mode ] && exit 0
+
 INPUT=$(cat)
-FILE=$(printf '%s' "$INPUT" | jq -r '.tool_input.file_path // empty')
+FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // empty')
 
-# --- Scope check: only gate source code files ---
-if ! printf '%s' "$FILE" | grep -qE "/src/"; then
+if ! echo "$FILE" | grep -qE "/src/"; then
   exit 0
 fi
 
-# Exclude test files
-if printf '%s' "$FILE" | grep -qE "\.(test|spec)\.(ts|tsx|js|jsx)$"; then
+if echo "$FILE" | grep -qE "\.(test|spec)\.(ts|tsx|js|jsx)$"; then
   exit 0
 fi
 
-# --- Check if a task is active ---
-ACTIVE_TASK_FILE="/tmp/eos-active-task"
+ACTIVE_TASK_FILE="/tmp/enterprise-active-task"
 if [ ! -f "$ACTIVE_TASK_FILE" ]; then
   exit 0
 fi
@@ -36,14 +28,13 @@ if [ -z "$TASK" ]; then
   exit 0
 fi
 
-# --- Check if refs file exists for this task ---
-REFS_FILE="/tmp/eos-task-refs-$TASK"
+REFS_FILE="/tmp/enterprise-task-refs-$TASK"
 if [ ! -f "$REFS_FILE" ]; then
   exit 0
 fi
 
-# --- Check if all required reports have been read ---
-READS_FILE="/tmp/eos-report-reads"
+# Part 1: Report-read check (blocking)
+READS_FILE="/tmp/enterprise-report-reads"
 MISSING=""
 
 while IFS= read -r ref; do
@@ -56,10 +47,36 @@ done < "$REFS_FILE"
 if [ -n "$MISSING" ]; then
   echo "HOOK: report-read-gate (PreToolUse Edit|Write)" >&2
   echo "ATTEMPTED: modify $FILE" >&2
-  echo "REASON: Task [$TASK] has required reference reports that have not been read." >&2
-  printf "FIX: Read these reports first:%b\n" "$MISSING" >&2
+  echo "REASON: Required reference reports for task [$TASK] have not been read." >&2
+  echo -e "FIX: Read these reports first:$MISSING" >&2
   exit 2
 fi
 
-# All required reports read -- allow
+# Part 2: Re-anchoring context injection
+if [ -f "$ACTIVE_TASK_FILE" ] && [ -n "$TASK" ]; then
+  FILE_HASH=$(printf '%s' "$FILE" | shasum -a 256 2>/dev/null | cut -c1-12)
+  REANCHOR_MARKER="/tmp/enterprise-reanchor-${TASK}-${FILE_HASH}"
+
+  if [ -n "$FILE_HASH" ] && [ ! -f "$REANCHOR_MARKER" ]; then
+    ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
+    TASK_DOC=""
+    for candidate in "$ROOT"/docs/tasks/"$TASK"/"$TASK".md "$ROOT"/docs/tasks/"$TASK"/*.md; do
+      if [ -f "$candidate" ]; then
+        TASK_DOC="$candidate"
+        break
+      fi
+    done
+
+    if [ -n "$TASK_DOC" ]; then
+      TASK_EXCERPT=$(head -30 "$TASK_DOC" 2>/dev/null || true)
+      touch "$REANCHOR_MARKER"
+      echo "[Re-anchor] Task: ${TASK} | File: ${FILE}"
+      echo "--- Task context (first 30 lines) ---"
+      echo "$TASK_EXCERPT"
+      echo "--- End task context ---"
+      echo "Remember: you are working on task [${TASK}]. Stay focused on the current checklist item."
+    fi
+  fi
+fi
+
 exit 0

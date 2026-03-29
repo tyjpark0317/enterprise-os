@@ -30,6 +30,8 @@ docs/
 │       │   ├── cto-frameworks.md
 │       │   └── coo-frameworks.md
 │       └── csuite-file-map.md # Maps C-Suite roles to output directories
+├── runbooks/              # Incident response runbooks (auto-generated)
+│   └── {issue-slug}.md        # Per-incident runbook for auto-response
 ├── tasks/                 # Task memory (feature docs)
 │   └── {feature}/         # Per-feature directory
 │       ├── {feature}.md       # Plan, Context, Checklist
@@ -71,6 +73,8 @@ The single source of truth for project status. Contains:
 - Action items tracker
 - Key decisions log
 - Key metrics
+- Self-correction status
+- Plugin integration status
 
 **Rule:** Read at session start. Update at session end and before every commit.
 
@@ -78,16 +82,38 @@ The single source of truth for project status. Contains:
 Per-feature task memory. Contains three mandatory sections:
 - **Plan** -- What to build (goals, approach, end state)
 - **Context** -- Why these decisions (alternatives considered, constraints)
-- **Checklist** -- Progress tracking with task status markers
+- **Checklist** -- Progress tracking with task status markers and owner tags
 
 ### `docs/manuals/index.md`
 Entry point for all development manuals. Contains trigger rules that map work areas to required reading.
+
+### `docs/runbooks/{issue-slug}.md`
+Incident response runbooks auto-generated after fixes. Enable the orchestration layer to auto-respond to recurring issues without human intervention.
 
 ### `docs/executive/shared/frameworks/`
 Decision-making frameworks loaded at session start:
 - **ceo-frameworks.md** -- 18 legendary CEO frameworks (Jobs, Bezos, Grove, Walton, etc.)
 - **cto-frameworks.md** -- Engineering principles (Vogels, Fowler, Nygard, etc.)
 - **coo-frameworks.md** -- Operational frameworks (Goldratt, Cook, Rabois, Wilke, etc.)
+
+---
+
+## .ops/ Directory (AI Ops Event Bus)
+
+```
+.ops/
+├── state/                     # Real-time system and business state
+│   └── active-incidents.json
+├── needs-code-fix/            # Incidents requiring code agent fixes
+├── completed/                 # Fix completion records + learning data
+│   └── INC-{timestamp}.json
+├── auto-resolved/             # Self-resolved incident records
+├── reports/                   # Daily/weekly/monthly reports
+└── self-correction/           # Self-correction system data
+    ├── scorecards/            # Agent self-score records
+    ├── lessons/               # Learned lessons per agent
+    └── evolution/             # Evolution items (CHRO reviewed)
+```
 
 ---
 
@@ -117,7 +143,9 @@ Or create manually:
 
 ```bash
 mkdir -p docs/executive/{ceo/briefs,cto/adr,cfo,cmo,cpo,coo/{wave,coe},clo,chro/grade,shared/frameworks}
+mkdir -p docs/runbooks
 mkdir -p docs/tasks
 mkdir -p docs/manuals/{frontend,backend,database,security,business}
 mkdir -p docs/plans
+mkdir -p .ops/{state,needs-code-fix,completed,auto-resolved,reports,self-correction/{scorecards,lessons,evolution}}
 ```

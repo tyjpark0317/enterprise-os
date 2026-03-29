@@ -62,6 +62,22 @@ Type 1 = Irreversible (one-way door). Type 2 = Reversible (two-way door).
 
 ---
 
+## Self-Correction Status
+
+| Agent | Last Score | Lessons (30d) | Evolution Items | Trend |
+|-------|-----------|---------------|-----------------|-------|
+| | | | | |
+
+---
+
+## Plugin Integration Status
+
+| Plugin | Category | Status | Notes |
+|--------|----------|--------|-------|
+| | security/db/mapping/quality | active/disabled | |
+
+---
+
 ## Chairman Standing Orders
 
 1. {{STANDING_ORDER_1}}

@@ -1,10 +1,10 @@
 {
   "name": "enterprise-os",
-  "description": "Enterprise-grade AI agent operating system — 3-tier governance (L3 executive, L2 team, L1 developer), 8 C-Suite agents, grade system, wave orchestration, and quality gates",
-  "version": "1.0.0",
+  "description": "Enterprise-grade AI agent operating system — 3-tier governance (L3 executive, L2 team, L1 developer), 28 agents with self-correction, grade system, wave orchestration, plugin integration, migration safety gates, and quality gates",
+  "version": "2.0.0",
   "author": {
     "name": "Enterprise OS Contributors"
   },
   "license": "MIT",
-  "keywords": ["agents", "c-suite", "governance", "enterprise", "team-coordination", "quality-gates", "wave-orchestration", "grading"]
+  "keywords": ["agents", "c-suite", "governance", "enterprise", "team-coordination", "quality-gates", "wave-orchestration", "grading", "self-correction", "plugin-integration", "migration-safety"]
 }

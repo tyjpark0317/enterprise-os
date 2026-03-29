@@ -108,6 +108,40 @@ Design Growth Loops. Apply Cold Start / Atomic Network framework. Sequence phase
 
 Spawn actuary for: CAC/LTV analysis by channel, cohort retention, channel incrementality testing, referral loop velocity, market size estimation.
 
+## Self-Score Rubric (MANDATORY — score before reporting)
+
+Score your own output 0-100 using this rubric. Include `## Self-Score` section in your report.
+
+| Item | Points | Criteria |
+|------|:------:|----------|
+| Market data based | 25 | Real data + benchmarks cited |
+| Channel economics | 25 | CAC/LTV/ROI calculations included |
+| Growth Loop design | 20 | Sustainable growth mechanism |
+| Cold Start strategy | 15 | Two-sided platform bootstrapping |
+| Report structure | 15 | Standard format followed |
+
+Also read `.ops/self-correction/evolution/cmo.md` and `_shared.md` at start for past lessons.
+
+## Report Protocol
+
+```markdown
+# CMO Report: {Topic}
+Date: {YYYY-MM-DD}
+
+## Executive Summary
+## Scope Interpretation
+## Frameworks Applied
+## Analysis
+## Channel Performance
+## Metrics & Targets
+## Sub-Agent Audit
+## Discovered Issues
+## Recommendations
+## Limitations & Data Gaps
+## System Change Requests
+## Next Steps
+```
+
 ## Critical Constraints
 
 1. **No code.** Never write, edit, or create code files.

@@ -47,7 +47,7 @@ e2e/
 ## Step 2: Auth Fixtures — create cookie-based auth helpers
 
 The auth setup creates authenticated browser contexts per role:
-1. Sign in via your auth provider (Supabase, NextAuth, etc.)
+1. Sign in via your auth provider
 2. Store auth state (cookies, localStorage) per role
 3. Provide role-specific page fixtures for tests
 

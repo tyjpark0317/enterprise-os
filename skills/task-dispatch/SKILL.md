@@ -5,14 +5,55 @@ description: Use when dynamically routing new or unplanned tasks to the right te
 
 ## Task Dispatch — Dynamic Task Routing + Agent Configuration
 
-Route new or unplanned tasks to the correct team during multi-lead execution, and determine agent composition.
+Route new or unplanned tasks to the correct team during multi-lead execution, and determine the right agent composition.
+
+### When This Triggers
+
+1. **Validator discovers new bug** during VALIDATE phase
+2. **feature-developer reports PARTIAL** with additional work identified
+3. **Team finishes early** — available for rebalancing
+4. **User adds unplanned task** during active Wave execution
+5. **Wave orchestrator** needs agent configuration for a new team
 
 ### 2-Step Dispatch Logic
 
-1. **Routing** — determine which team based on file overlap
-2. **Agent Configuration** — classify task and determine agent composition + model selection
+#### Step 1 — Routing (Which team?)
 
-### Model Selection Matrix
+```
+Input: new_task.files = [file1, file2, ...]
+
+For each active_team:
+  overlap = new_task.files ∩ active_team.files
+  if overlap ≠ ∅:
+    → Route to active_team (append to CHECKLIST)
+
+If no overlap found:
+  if current_wave.team_count < MAX_PARALLEL_TEAMS:
+    → Create new team (new worktree + branch)
+  else:
+    → Add to next Wave backlog
+```
+
+#### Step 2 — Agent Configuration (What agents?)
+
+**Task Classification:**
+
+| Signal | Classification |
+|--------|---------------|
+| <=3 files, no new tables/endpoints/payment/auth | TRIVIAL |
+| 4-10 files, modifying existing code | STANDARD |
+| 10+ files, schema/payment/auth changes | MAJOR |
+| Includes UI components | +UI flag |
+
+**Agent Composition:**
+
+| Classification | Agents | Count |
+|---------------|--------|-------|
+| TRIVIAL (backend) | team-leader, feature-developer, qa, security-review | 4 |
+| STANDARD (backend) | above + plan-compliance + project-review | 6 |
+| MAJOR | STANDARD + multi-session feature-developer | 7+ |
+
+#### Step 3 — Model Selection
 
 | Agent Role | TRIVIAL | STANDARD | MAJOR |
 |-----------|---------|----------|-------|
@@ -24,13 +65,26 @@ Route new or unplanned tasks to the correct team during multi-lead execution, an
 
 ### Dispatch Actions
 
-- **Append to Existing Team** — file overlap detected
+- **Append to Existing Team** — file overlap detected, add to team's checklist
 - **Create New Team** — no overlap, wave has capacity
 - **Queue for Next Wave** — no overlap, wave full
 
+### Rebalancing
+
+When a team finishes early, check remaining teams for movable tasks (no cross-team file dependencies). Never rebalance tasks already in progress.
+
+### Critical Constraints
+
+- **Never create a team with file overlap** against existing active teams
+- **Never rebalance in-progress tasks** — only pending tasks can be moved
+- **Always verify task memory document** exists before team creation
+- **Always get user approval** before creating new teams mid-Wave
+- **Log all dispatch decisions** for traceability
+
 ## Checklist
 
-- [ ] Classify new task
+- [ ] Classify new task (size + type)
 - [ ] Route to existing or new team
-- [ ] Configure agents
+- [ ] Configure agents for team
+- [ ] Update task file
 - [ ] Generate dispatch report

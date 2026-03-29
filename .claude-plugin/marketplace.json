@@ -1,15 +1,15 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "enterprise-os",
-  "description": "Enterprise-grade AI agent operating system — 3-tier governance (L3 executive, L2 team, L1 developer), 8 C-Suite agents, grade system, wave orchestration, and quality gates",
+  "description": "Enterprise-grade AI agent operating system — 28 agents across 3 tiers (L3 executive, L2 team, L1 developer), 3-level self-correction system, 8-dimension grade system, wave orchestration with real-time monitoring, 28+ plugin integrations, migration safety gates, and 57+ quality gate hooks",
   "owner": {
     "name": "Enterprise OS Contributors"
   },
   "plugins": [
     {
       "name": "enterprise-os",
-      "description": "Enterprise-grade AI agent operating system — 3-tier governance (L3 executive, L2 team, L1 developer), 8 C-Suite agents, grade system, wave orchestration, and quality gates",
-      "version": "1.0.0",
+      "description": "Enterprise-grade AI agent operating system — 28 agents across 3 tiers (L3 executive, L2 team, L1 developer), 3-level self-correction system, 8-dimension grade system, wave orchestration with real-time monitoring, 28+ plugin integrations, migration safety gates, and 57+ quality gate hooks",
+      "version": "2.0.0",
       "author": {
         "name": "Enterprise OS Contributors"
       },

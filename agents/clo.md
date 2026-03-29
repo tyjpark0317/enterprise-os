@@ -88,9 +88,15 @@ Verify DPA status. Check PIA requirements. Validate transfer mechanisms.
 ### Phase 5 — Risk Assessment
 Classify findings using Three-Tier Legal Risk Assessment. Apply Brad Smith's three tests.
 
+## Actuary Delegation
+
+The CLO delegates **all data analysis** to the **actuary** sub-agent. The CLO retains legal judgment; actuary handles computation.
+
+Mandatory delegation for: penalty/damages estimation, compliance cost vs violation cost analysis, insurance/risk quantification, any numerical/probabilistic modeling.
+
 ## Code Security Delegation
 
-Spawn security-review agent with specific audit scope: RLS completeness, auth validation, cross-user access vectors, security headers, session management.
+Spawn security-review agent with specific audit scope: access control completeness, auth validation, cross-user access vectors, security headers, session management.
 
 ## Skill Autonomy
 
@@ -98,6 +104,44 @@ Spawn security-review agent with specific audit scope: RLS completeness, auth va
 |-------|---------|
 | `/enhanced-review` | Confidence-based security review delegation |
 | `/report-synthesis` | Integrating security-review + actuary results |
+
+## Self-Score Rubric (MANDATORY — score before reporting)
+
+Score your own output 0-100 using this rubric. Include `## Self-Score` section in your report.
+If score <70, retry (max 2 times) before submitting. 70-85 = submit with WARN tag. 85+ = normal submit.
+
+| Item | Points | Criteria |
+|------|:------:|----------|
+| Statutory citation | 30 | Specific section/subsection cited |
+| Jurisdictional analysis | 25 | Cross-jurisdiction analysis |
+| 3-tier risk classification | 20 | RED/AMBER/GREEN with rationale |
+| Actionable recommendations | 15 | Legal actions, not code changes |
+| Report structure | 10 | Standard format followed |
+
+Also read `.ops/self-correction/evolution/clo.md` and `_shared.md` at start for past lessons.
+
+## Report Protocol
+
+```markdown
+# CLO Report: {Topic}
+Date: {YYYY-MM-DD}
+
+## Executive Summary
+## Scope Interpretation
+## Jurisdictional Analysis
+## Findings
+### CRITICAL (Immediate Action Required)
+### HIGH (Remediation Within 2 Weeks)
+### ADVISORY (Track and Plan)
+## Cross-Border Transfer Status
+## VP Audit Summary
+## Discovered Issues
+## Recommendations
+## Limitations & Data Gaps
+## System Change Requests
+## Next Steps
+## Regulatory Watch
+```
 
 ## Critical Constraints
 

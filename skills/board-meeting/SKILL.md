@@ -33,6 +33,15 @@ When this skill activates, you are the **project CEO**.
 
 CEO frameworks are auto-loaded by SessionStart hook.
 
+### Mandatory Debate Rule
+Each C-Suite must include a **"Dissent / Risk"** section in their analysis report. At least 1 contrarian opinion or risk factor required. Unanimous agreement is an abnormal signal — CEO asks additional challenge questions.
+
+### Double Diamond Process
+1. **Discover** — What is the problem? (Step 4 Phase 1)
+2. **Define** — What specifically needs deciding? (Step 5 cross-analysis)
+3. **Develop** — What are the options? (CEO alternative exploration)
+4. **Deliver** — What is the decision? (Step 6 Meeting Notes)
+
 ---
 
 ## Step 1: Verify Infrastructure
@@ -44,16 +53,31 @@ STOP if any check fails. Verify all executive agent files and framework files ex
 1. Read latest meeting notes
 2. Read each C-Suite latest report
 3. CEO summarizes: unresolved Action Items, carry-forward issues, agenda draft
+4. Confirm agenda with user
 
 If `$ARGUMENTS` is "retry" -> jump to Retry Protocol.
 
 ## Step 3: Determine Agenda + Select Executives
 
-CEO autonomously selects executives based on agenda categories, reports selection rationale to chairman.
+CEO autonomously selects executives based on agenda categories:
+
+| Agenda Category | Recommended Executives |
+|---|---|
+| Full strategic review / quarterly / OKR | ALL 7 |
+| Market entry / expansion / pricing | CFO, CMO, CPO, CLO |
+| Product roadmap / features / UX | CPO, CTO, CMO |
+| Technical architecture / debt / infra | CTO, COO, CFO |
+| Compliance / privacy / legal | CLO, CTO, CPO |
+| System health / agent quality / ops | CHRO, COO, CTO |
+| Financial review / unit economics | CFO, CMO, COO |
 
 ## Step 4: TeamCreate + Phase 1 (Independent Analysis)
 
-Create "board-meeting" team, spawn selected executives in parallel with anti-sycophancy mandate.
+Create "board-meeting" team, spawn selected executives in parallel with anti-sycophancy mandate. Each executive analyzes the agenda from their domain perspective and saves report to `docs/executive/{role}/`.
+
+## Step 4.5: Phase 1.5 — Cross-Functional Alert (Optional)
+
+After all Phase 1 reports arrive, scan for CRITICAL/HIGH findings that affect other executives' domains. Share findings via SendMessage before Phase 2.
 
 ## Step 5: Phase 2 — CEO Cross-Analysis
 
@@ -72,6 +96,26 @@ Remove phase markers, commit to git.
 ## Retry Protocol
 
 Resume from Progress Tracker. Do NOT re-run completed phases.
+
+## Product Diagnostic Framework
+
+6 forcing questions for product-related agenda items:
+
+| # | Question | Push Until You Hear |
+|---|----------|-------------------|
+| Q1 | **Demand Reality** — Who would genuinely be upset if this disappeared? | Concrete behavioral evidence, not interest signals |
+| Q2 | **Status Quo** — How is this solved today? What's the cost? | Specific workflow, time, money, duct-tape tools |
+| Q3 | **Desperate Specificity** — Name the most desperate person. Their role? | Real names and roles, not categories |
+| Q4 | **Narrowest Wedge** — Smallest version someone would pay for this week? | One feature, one workflow, shippable in days |
+| Q5 | **Observation & Surprise** — Watched real usage without help? What surprised you? | Assumption-breaking specifics |
+| Q6 | **Future-Fit** — In 3 years, is this more or less essential? | Specific argument about world changes |
+
+### Anti-Sycophancy Rules
+
+- No agreement without framework evidence
+- "That's an interesting approach" → must state position
+- "There are many ways to think about this" → pick one, state falsification conditions
+- "That could work" → evidence-based judgment of whether it will or won't
 
 ## Error Handling
 
@@ -103,7 +147,7 @@ Resume from Progress Tracker. Do NOT re-run completed phases.
 - [ ] Step 1: Verify infrastructure
 - [ ] Step 2: CEO context loading
 - [ ] Step 3: Determine agenda + select executives
-- [ ] Step 4: TeamCreate + Phase 1
+- [ ] Step 4: TeamCreate + Phase 1 (independent analysis)
 - [ ] Step 5: Phase 2 — CEO cross-analysis
 - [ ] Step 6: Phase 3 — synthesis + brief
 - [ ] Step 7: Cleanup + commit

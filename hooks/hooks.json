@@ -38,6 +38,11 @@
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/csuite/board-meeting-phase-gate.sh\"",
             "timeout": 300000
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/lead/done-verdict-checklist-gate.sh\"",
+            "timeout": 300000
           }
         ]
       },
@@ -57,6 +62,16 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/shared/manual-update-gate.sh\"",
+            "timeout": 300000
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/lead/commit-migration-gate.sh\"",
+            "timeout": 300000
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/lead/deploy-migration-gate.sh\"",
             "timeout": 300000
           }
         ]
@@ -133,6 +148,11 @@
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/csuite/csuite-layer.sh\"",
             "timeout": 300000
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/shared/team-browser-guard.sh\"",
+            "timeout": 300000
           }
         ]
       },
@@ -189,6 +209,11 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/shared/verify-domain-rules.sh\"",
+            "timeout": 300000
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/shared/migration-fk-index-check.sh\"",
             "timeout": 300000
           }
         ]
@@ -264,6 +289,11 @@
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/csuite/board-meeting-brief.sh\"",
             "timeout": 300000
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/shared/ops-completion-gate.sh\"",
+            "timeout": 300000
           }
         ]
       }
@@ -275,6 +305,11 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/shared/plugin-skill-compat.sh\"",
+            "timeout": 300000
+          },
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/shared/ops-needs-code-fix-scan.sh\"",
             "timeout": 300000
           }
         ]
